@@ -1,0 +1,4 @@
+*.pdf
+/node_modules
+/contracts/Rivulet.sol
+/build

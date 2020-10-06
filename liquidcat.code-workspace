@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true,
+		"cSpell.words": [
+			"BLOCKCHAIN",
+			"METACOIN",
+			"TRADINGPAGE",
+			"purecss"
+		]
+	}
+}
