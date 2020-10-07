@@ -6,7 +6,11 @@ contract BehodlerCat is CopyCat{
     function finalize () public override returns (bool){
         return true;
     }
-    function claim() public override returns (bool){
+    function wake() public override returns (bool){
        return true;
+    }
+
+    function killNineTimes () public override returns (bool){
+        
     }
 }

@@ -19,11 +19,11 @@ As an example, the Behodler Copycat will take all 'couch' tokens and inject them
 
 By introducing governance through simple dependency injection, liquid cat is made future proof and flexible.
 
+### FatCat
+
 ## NomenCATure
 MakerDAO made a strong case for picking metaphors and using consistent language to prevent antipatterns and code smells arising. For instance, the Dai Savings Rate is implemented with a Pot contract that fills and pours. If a developer added a 'levitate' function to Pot, it would raise red flags. 
 Similarly, Liquid Cat uses consisten cat based metaphors to keep the concepts internally consistent.
-
-
 
 ### TODO
 1. Flesh out staking logic in CoolCat

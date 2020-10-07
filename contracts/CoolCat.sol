@@ -19,6 +19,7 @@ contract CoolCat{
     enum flowType {
         fixedDuration, //topping up with catnip increases reward rate
         fixedRewardRate //topping up with catnip increases duration of stake
+        //perpetual?
     }
 
     enum stakingState {
@@ -27,10 +28,10 @@ contract CoolCat{
     }
 
     struct contractAddresses{ //obligatory stack too deep error mention
-        topCat;
-        catnip;
-        couch;
-        copyCat;
+        address topCat;
+        address catnip;
+        address couch;
+        address copyCat;
     }
     
     struct stakingConfiguration {
@@ -40,9 +41,9 @@ contract CoolCat{
     }
 
     struct catInfo {
-        uint scratchMarks,
-        uint landfillHeightAtLastJoin, 
-        uint personalLitterBox //the landfill is composed of all the litterboxes.
+        uint scratchMarks;
+        uint landfillHeightAtLastJoin; 
+        uint personalLitterBox; //the landfill is composed of all the litterboxes.
     }
 
     uint constant ONE = 1 szabo; // precision for fixed point arithmetic
@@ -66,7 +67,7 @@ contract CoolCat{
         _;
     }
 
-    constructor (address topCat, address catnip, address couch, address copyCat){
+    constructor (address topCat, address catnip, address couch, address copyCat) public{
         addresses.topCat = topCat;
         addresses.catnip = catnip;
         addresses.couch = addresses.couch;
@@ -75,18 +76,18 @@ contract CoolCat{
     }
 
     function configure (uint flow,bool onlyHouseCats, uint flowValue) public onlyCopyCat {
-        config.flow = flow;
+        config.flow = flowType(flow);
         config.onlyHouseCats = onlyHouseCats;
         config.flowValue = flowValue;
     }
 
     function lookWhatTheCatDraggedIn(uint value, address sender) private {
-        require(ERC20Like(catnip).transferFrom(sender,address(this),value),"LIQUID CAT: transfer of catnip failed");
+        require(ERC20Like(addresses.catnip).transferFrom(sender,address(this),value),"LIQUID CAT: transfer of catnip failed");
         if(config.flow == flowType.fixedDuration){
                 uint timeLeft = now - startingTime;
-                baseCatnipPerSecond = ERC20(catnip).balanceOf(address(this)).div(timeLeft);
+                baseCatnipPerSecond = ERC20Like(addresses.catnip).balanceOf(address(this)).div(timeLeft);
         }else {
-            baseCatniPerSecond = config.flowValue;
+            baseCatnipPerSecond = config.flowValue;
         }
     }
 
@@ -94,15 +95,14 @@ contract CoolCat{
        lookWhatTheCatDraggedIn(value, msg.sender);
     }
 
-    function wake (uint value) onlyCopyCat {
+    function wake (uint value) public onlyCopyCat {
         require (state == stakingState.sleeping,"LIQUID CAT: only sleeping cats can be woken");
         state = stakingState.scratching;
         startingTime = now;
     }
     
     function curiosity() public onlyCopyCat {
-        require(stakingState == state.finished,'LIQUID CAT: cool cats can only be reclaimed after staking round.');
-        this.selfdestruct(TopCat(addresses.tomCats(address(this)));
+
     }
 
     function finalize () public onlyCopyCat {
@@ -111,17 +111,17 @@ contract CoolCat{
     }
 
     function toggleOnlyHouseCats (bool e) public onlyCopyCat{
-        onlyHouseCats = e;
+        config.onlyHouseCats = e;
     }
 
-    function admitHouseCats(calldata address[] cats,calldata bool[] house ) public{
+    function admitHouseCats( address[] memory cats, bool[] memory house ) public{
         for (uint i =0;i<cats.length;i++) {
             houseCats[cats[i]] = house[i];
         }
     }
 
     //process the consumed catnip
-    function poop() {
+    function poop() public {
 
     }
 
@@ -133,7 +133,7 @@ contract CoolCat{
 
     }
 
-    function timeUntilCatnipCrash(){
-
+    function timeUntilCatnipCrash() public view{
+        
     }
 }

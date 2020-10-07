@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.6.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "facades/ERC20Like.sol";
+import "./facades/ERC20Like.sol";
 /*
 TopCat is a master factory contract for creating staking contracts (coolCat) and 
 associating them with treasury contracts (fatCat). The relationship is 1:1.
@@ -11,7 +11,7 @@ Whitelisted users who can deploy for no fee are feral because they are unhindere
 CatNip is the reward token for scratching (staking) and couch is the item you have to scratch
 */
 
-contract TopCat is Ownable{
+contract TopCat is Ownable{ //rename liquid cat
     mapping (address=>address) public fatToCool;
     mapping (address=>address) public coolToFat;
     mapping (address=>bool) public feralCats; //no fee users
@@ -30,7 +30,7 @@ contract TopCat is Ownable{
 
     function birthKitty(address copyCat, address catnip, address couch, uint flowType) public {
         if(flap.token !=address(0) && flap.width>0 && !feralCats[msg.sender]){
-           require(ERC20Like(flap.token).transferFrom(msg.sender,address(this),flap.fee),"LIQUID CAT: user must pay fee to launch a staking contract.");
+           require(ERC20Like(flap.token).transferFrom(msg.sender,address(this),flap.width),"LIQUID CAT: user must pay fee to launch a staking contract.");
         }
         //TODO: use create2 for predictalbe deployment address
         //TODO: transfer ownership to msg.sender (delegateCall?)

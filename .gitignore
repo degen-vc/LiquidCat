@@ -1,4 +1,4 @@
 *.pdf
 /node_modules
-/contracts/Rivulet.sol
+/contracts/Rivulet.*
 /build
